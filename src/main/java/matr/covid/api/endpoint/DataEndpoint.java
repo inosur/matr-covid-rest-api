@@ -1,10 +1,10 @@
 package matr.covid.api.endpoint;
 
+import matr.covid.api.dto.LayerGroupDto;
+import matr.covid.api.dto.LayerDto;
 import matr.covid.api.service.ProjectionServices;
 import matr.covid.api.service.LayerService;
 import java.util.List;
-import matr.covid.api.dto.LayerDto;
-import matr.covid.api.dto.LayerProjectionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +25,11 @@ public class DataEndpoint {
     private ProjectionServices projectionServices;
 
     @PostMapping(path = "by-coordinate")
-    public List<LayerProjectionDto> doRequest(@RequestParam("latitude") Double latitude,
-            @RequestParam("longitude") Double longitude) {
+    public List<LayerGroupDto> doRequest(@RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude,
+             @RequestParam(defaultValue = "10",name = "radius") Long radius) {
 
-        return projectionServices.getProjection(latitude, longitude);
+        return projectionServices.getProjection(latitude, longitude,radius);
     }
 
     @PostMapping("available-layers")
