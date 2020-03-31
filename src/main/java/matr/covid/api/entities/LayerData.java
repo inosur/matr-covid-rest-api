@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OrderColumn;
 import org.locationtech.jts.geom.Point;
 
 /**
@@ -26,6 +27,7 @@ public class LayerData implements Serializable {
     @Column(name = "layerData")
     @Convert(converter = HashMapConverter.class)
     private Map<String, Object> data;
+    @OrderColumn
     private Long layerId;
 
     public Long getId() {

@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class SummarizedDataParser implements DataParser {
 
+    private static final int DELTA = 500;
     @Autowired
     private LayerDataRepository repository;
 
@@ -41,20 +42,21 @@ public class SummarizedDataParser implements DataParser {
     public List<LayerDataDto> readData() {
         Map<String, CovidItemBean> itemData = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
-        long count = repository.count();
-        long delta = count / 20; //delta = 20
+
+        long delta = (repository.count() / DELTA) + 1; //delta = 20
         for (int i = 0; i < delta; i++) {
-            List<LayerData> layerData = repository.findByLayerId(1L, PageRequest.of(i, 20));
+            List<LayerData> layerData = repository.findByLayerId(1L, PageRequest.of(i, DELTA));
 
             layerData.stream().collect(ArrayList<CovidItemBean>::new, (list, l) -> {
                 CovidItemBean ii = mapper.convertValue(l.getData(), CovidItemBean.class);
                 list.add(ii);
             }, ArrayList<CovidItemBean>::addAll).stream().forEach(item -> {
-                CovidItemBean get = itemData.get(item.getCountry());
+                String cc = item.getCountry().toLowerCase().trim();
+                CovidItemBean get = itemData.get(cc);
                 if (get == null) {
-                    itemData.put(item.getCountry(), item);
+                    itemData.put(cc, item);
                 } else {
-                    itemData.put(get.getCountry(), summarize(get, item));
+                    itemData.put(cc, summarize(get, item));
 
                 }
 
