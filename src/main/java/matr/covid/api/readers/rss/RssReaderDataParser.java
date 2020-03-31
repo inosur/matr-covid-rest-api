@@ -18,6 +18,7 @@ import java.util.Map;
 import matr.covid.api.dto.LayerDataDto;
 import matr.covid.api.dto.LayerDto;
 import matr.covid.api.readers.DataParser;
+import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,7 +92,7 @@ public class RssReaderDataParser implements DataParser {
                             } else {
                                 news.date = entry.getUpdatedDate();
                             }
-                            news.description = entry.getDescription().getValue();
+                            news.description = Jsoup.parse(entry.getDescription().getValue()).text();
                             c.add(news);
 
                         }, ArrayList<NewsFeedData>::addAll));
@@ -118,6 +119,11 @@ public class RssReaderDataParser implements DataParser {
     @Override
     public boolean appliesCoordinates() {
         return false;
+    }
+
+    @Override
+    public int priority() {
+        return 0;
     }
 
     public static class NewsFeedData {

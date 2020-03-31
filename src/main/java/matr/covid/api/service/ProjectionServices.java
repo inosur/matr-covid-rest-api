@@ -56,7 +56,7 @@ public class ProjectionServices {
             p.add(layerGroupDto);
         }, ArrayList::addAll);
 
-        return collect;
+            return collect;
     }
 
 }

@@ -26,8 +26,8 @@ public interface DataParser {
 
     boolean shouldRemoveAllData();
 
-    public boolean appliesCoordinates();
+    boolean appliesCoordinates();
     
-    
+    int priority();
 
 }

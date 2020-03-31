@@ -19,8 +19,10 @@ public interface LayerDataRepository extends JpaRepository<LayerData, Long> {
 
     @Query("SELECT ld from LayerData ld WHERE ld.layerId=:layerId AND within(ld.coordinate,:bound)=true")
     List<LayerData> getByLayerIdAndPosition(@Param("layerId") Long layerId, @Param("bound") Geometry bound, Pageable page);
-    
+
     List<LayerData> findAllByLayerId(@Param("layerId") final Long layerId);
 
     long deleteByLayerId(@Param("layerId") final Long layerId);
+
+    List<LayerData> findByLayerId(@Param("layerId") final Long id, Pageable page);
 }

@@ -123,4 +123,9 @@ public class CovidByGitDataParser implements DataParser {
         return true;
     }
 
+    @Override
+    public int priority() {
+        return 0;
+    }
+
 }

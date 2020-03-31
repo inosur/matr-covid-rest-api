@@ -34,32 +34,32 @@ public class SyncService {
     @Autowired
     private List<DataParser> parsers;
 
-
-
     public void runSync() {
         GeometryFactory geomFactory = new GeometryFactory();
-        parsers.stream().forEach(parser -> {
+        parsers.
+                stream().
+                sorted((c1, c2) -> Integer.compare(c1.priority(), c2.priority())).
+                forEach(parser -> {
 
-            if (parser.shouldRemoveAllData()) {
-                repository.deleteByLayerId(parser.getLayer().getId());
-            }
+                    if (parser.shouldRemoveAllData()) {
+                        repository.deleteByLayerId(parser.getLayer().getId());
+                    }
 
-            LayerDto layer = parser.getLayer();
-            List<LayerDataDto> readData = parser.readData();
+                    LayerDto layer = parser.getLayer();
+                    List<LayerDataDto> readData = parser.readData();
 
-            ArrayList<LayerData> collect = readData.stream().collect(ArrayList<LayerData>::new, (p, layerData) -> {
-                LayerData entity = new LayerData();
-                entity.setLayerId(layer.getId());
-                if (layerData.getCoordinate() != null) {
-                    entity.setCoordinate(geomFactory.createPoint(new Coordinate(layerData.getCoordinate().getX(), layerData.getCoordinate().getY())));
-                }
-                entity.setData(layerData.getData());
-                p.add(entity);
-            }, ArrayList<LayerData>::addAll);
-            repository.saveAll(collect);
-        });
+                    ArrayList<LayerData> collect = readData.stream().collect(ArrayList<LayerData>::new, (p, layerData) -> {
+                        LayerData entity = new LayerData();
+                        entity.setLayerId(layer.getId());
+                        if (layerData.getCoordinate() != null) {
+                            entity.setCoordinate(geomFactory.createPoint(new Coordinate(layerData.getCoordinate().getX(), layerData.getCoordinate().getY())));
+                        }
+                        entity.setData(layerData.getData());
+                        p.add(entity);
+                    }, ArrayList<LayerData>::addAll);
+                    repository.saveAll(collect);
+                });
 
     }
-
 
 }
