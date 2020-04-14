@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import matr.covid.api.dto.LayerDataDto;
 import matr.covid.api.dto.LayerDto;
-import matr.covid.api.entities.LayerData;
+import matr.covid.api.entities.layer.LayerData;
 import matr.covid.api.readers.DataParser;
 import matr.covid.api.readers.git.CovidItemBean;
 import matr.covid.api.repository.LayerDataRepository;

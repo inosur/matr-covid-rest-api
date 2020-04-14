@@ -21,6 +21,7 @@ import java.util.Map;
 import matr.covid.api.dto.LayerDataDto;
 import matr.covid.api.dto.LayerDto;
 import matr.covid.api.readers.DataParser;
+import matr.covid.api.readers.ParserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,7 +54,7 @@ public class CovidByGitDataParser implements DataParser {
     }
 
     @Override
-    public List<LayerDataDto> readData() {
+    public List<LayerDataDto> readData() throws ParserException {
         try {
             List<CovidItemBean> readDailyReport = readDailyReport();
             final ObjectMapper mapper = new ObjectMapper();
@@ -68,12 +69,13 @@ public class CovidByGitDataParser implements DataParser {
                                 Map<String, Object> convertValue = mapper.convertValue(c, new TypeReference<Map<String, Object>>() {
                                 });
                                 data.setData(convertValue);
+                                data.setGeoUID(c.getFips());
                                 p.add(data);
                             }, ArrayList<LayerDataDto>::addAll);
 
         } catch (IOException ex) {
             LOG.error("io exception reading data", ex);
-            return Collections.emptyList();
+            throw new ParserException();
         }
     }
 

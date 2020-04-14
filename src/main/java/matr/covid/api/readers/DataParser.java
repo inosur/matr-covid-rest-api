@@ -21,13 +21,14 @@ public interface DataParser {
      * reads and compute the data according to the layer.
      *
      * @return
+     * @throws matr.covid.api.readers.ParserException
      */
-    List<LayerDataDto> readData();
+    List<LayerDataDto> readData() throws ParserException;
 
     boolean shouldRemoveAllData();
 
     boolean appliesCoordinates();
-    
+
     int priority();
 
 }

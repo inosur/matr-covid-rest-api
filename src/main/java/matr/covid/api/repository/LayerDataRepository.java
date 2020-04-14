@@ -1,7 +1,7 @@
 package matr.covid.api.repository;
 
 import java.util.List;
-import matr.covid.api.entities.LayerData;
+import matr.covid.api.entities.layer.LayerData;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.data.domain.Pageable;
 
@@ -25,4 +25,7 @@ public interface LayerDataRepository extends JpaRepository<LayerData, Long> {
     long deleteByLayerId(@Param("layerId") final Long layerId);
 
     List<LayerData> findByLayerId(@Param("layerId") final Long id, Pageable page);
+
+    List<LayerData> findAllBylayerRef(final String layerRef);
+
 }

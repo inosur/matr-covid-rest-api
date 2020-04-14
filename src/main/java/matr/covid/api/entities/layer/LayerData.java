@@ -1,4 +1,4 @@
-package matr.covid.api.entities;
+package matr.covid.api.entities.layer;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -23,12 +23,14 @@ public class LayerData implements Serializable {
     private Long id;
     @Column(columnDefinition = "geometry")
     private Point coordinate;
-    @Lob 
+    @Lob
     @Column(name = "layerData")
     @Convert(converter = HashMapConverter.class)
     private Map<String, Object> data;
     @OrderColumn
     private Long layerId;
+    @OrderColumn()
+    private String layerRef;
 
     public Long getId() {
         return id;
@@ -60,6 +62,14 @@ public class LayerData implements Serializable {
 
     public void setLayerId(Long layerId) {
         this.layerId = layerId;
+    }
+
+    public String getLayerRef() {
+        return layerRef;
+    }
+
+    public void setLayerRef(String layerRef) {
+        this.layerRef = layerRef;
     }
 
 }

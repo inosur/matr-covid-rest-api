@@ -1,4 +1,4 @@
-package matr.covid.api.entities;
+package matr.covid.api.entities.layer;
 
 import java.io.Serializable;
 import javax.persistence.Entity;

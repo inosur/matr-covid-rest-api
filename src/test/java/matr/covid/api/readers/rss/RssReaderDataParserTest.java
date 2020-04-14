@@ -1,6 +1,7 @@
 package matr.covid.api.readers.rss;
 
 import java.util.List;
+import matr.covid.api.readers.ParserException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,16 @@ public class RssReaderDataParserTest {
 
     @Test
     public void testGetLayer() {
-        System.out.println("getLayer");
+        try {
+            System.out.println("getLayer");
 
-        List<RssReaderDataParser.NewsFeedData> readRssNews = instance.readRssNews();
+            List<RssReaderDataParser.NewsFeedData> readRssNews = instance.readRssNews();
 
-        assertFalse(readRssNews.isEmpty());
-        assertEquals(readRssNews.size(), 10);
+            assertFalse(readRssNews.isEmpty());
+            assertEquals(readRssNews.size(), 10);
+        } catch (ParserException ex) {
+            fail("some exceptions raised here");
+        }
     }
 
 }

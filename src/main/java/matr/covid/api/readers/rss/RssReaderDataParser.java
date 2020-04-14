@@ -18,6 +18,7 @@ import java.util.Map;
 import matr.covid.api.dto.LayerDataDto;
 import matr.covid.api.dto.LayerDto;
 import matr.covid.api.readers.DataParser;
+import matr.covid.api.readers.ParserException;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,6 @@ public class RssReaderDataParser implements DataParser {
     public LayerDto getLayer() {
         if (instance == null) {
             instance = new LayerDto();
-
             instance.setName("News Feed");
             instance.setId(LAYER_ID);
             instance.setDescription("News feed from cdc and who.");
@@ -55,7 +55,7 @@ public class RssReaderDataParser implements DataParser {
     }
 
     @Override
-    public List<LayerDataDto> readData() {
+    public List<LayerDataDto> readData() throws ParserException {
         List<NewsFeedData> readRssNews = readRssNews();
 
         final ObjectMapper mapper = new ObjectMapper();
@@ -69,7 +69,7 @@ public class RssReaderDataParser implements DataParser {
         }, ArrayList<LayerDataDto>::addAll);
     }
 
-    protected List<NewsFeedData> readRssNews() {
+    protected List<NewsFeedData> readRssNews() throws ParserException {
 
         List<NewsFeedData> data = new LinkedList<>();
 

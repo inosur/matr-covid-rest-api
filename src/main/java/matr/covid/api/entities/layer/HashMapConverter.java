@@ -1,4 +1,4 @@
-package matr.covid.api.entities;
+package matr.covid.api.entities.layer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
